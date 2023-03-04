@@ -93,11 +93,11 @@ function UserBetDetails({ allEvents, betAccount, refreshAll }) {
       )}
       <div>outcome: {eventDetails?.amm?.account?.code}</div>
       <div>
-        Bet Shares: {Number(betAccount.account.amountOutcome / 1e9).toFixed(2)}
+        Bet Shares: {Number(betAccount.account.amountOutcome / 1e3).toFixed(2)}
       </div>
       <div>
         HMBs Spent:{" "}
-        {Number(betAccount.account.amountCollateral / 1e9).toFixed(2)}
+        {Number(betAccount.account.amountCollateral / 1e3).toFixed(2)}
       </div>
       {betStatus === "open" && <button onClick={sell}> sell </button>}
       {["win", "lose", "rolled-back"].includes(betStatus) && (

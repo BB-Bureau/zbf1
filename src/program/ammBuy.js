@@ -56,7 +56,7 @@ export const ammBuy = async (wallet, ammPk, amount) => {
     userAtaPk,
     zeusInfoPk,
     wallet.publicKey,
-    Number(amount) * 1e9
+    Number(amount) * 1e3
   );
   transaction.add(approveinstruction);
 
@@ -67,7 +67,7 @@ export const ammBuy = async (wallet, ammPk, amount) => {
   );
 
   const buyInstruction = await program.methods
-    .buyBetWithCollateral(new BN(Number(amount) * 1e9))
+    .buyBetWithCollateral(new BN(Number(amount) * 1e3))
     .accounts({
       payer: wallet.publicKey,
       zeusInfo: zeusInfoPk,
