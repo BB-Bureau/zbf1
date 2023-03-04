@@ -9980,6 +9980,13 @@ react-refresh@^0.11.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
 
+react-text-spinners@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-text-spinners/-/react-text-spinners-3.0.1.tgz#2618502be42c4845f7337a73039b74371d4c77f8"
+  integrity sha512-sAWcieAEjFD4mfVgm1OjDR70d4T9o+QfeKxAf29YK1+eJ/eCm1anYcEWoS5FXTulhF2wKAKiUDVnhuQlwYu7CA==
+  dependencies:
+    text-spinners "^1.0.5"
+
 react@16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
@@ -11106,6 +11113,11 @@ text-encoding-utf-8@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/text-encoding-utf-8/-/text-encoding-utf-8-1.0.2.tgz#585b62197b0ae437e3c7b5d0af27ac1021e10d13"
   integrity sha512-8bw4MY9WjdsD2aMtO0OzOCY3pXGYNx2d2FfHRVUKkiCPDWjKuOlhLVASS+pD7VkLTVjW268LYJHwsnPFlBpbAg==
+
+text-spinners@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/text-spinners/-/text-spinners-1.0.5.tgz#801825e0643c53ff3ab3d990e1e93ddef97cb805"
+  integrity sha512-u0DPyiMx/ugPsXGDyR5vSHZlEDJqkEBMT5fCkKSS154z2cSMa8o/TVCYRCTSVlCNhrN5zYB/gNY9ce/RmE2wUw==
 
 text-table@^0.2.0:
   version "0.2.0"

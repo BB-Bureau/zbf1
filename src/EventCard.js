@@ -3,13 +3,19 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ammBuy } from "./program/ammBuy";
 import { getEvents } from "./program/getEvents";
 import Swal from 'sweetalert2'
+import './index.css';
+
+import Spinner from "react-text-spinners";
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 function AmmCard({ amm, onChange }) {
   const wallet = useAnchorWallet();
   const [amountBuy, setAmountBuy] = useState(0);
+  const [isLoading, setIsLoading] = useState(false)
+
   const buy = () => {
+    setIsLoading(true)
     if (!wallet?.publicKey) {
       Swal.fire(
         'Wallet Not Connected',
@@ -21,15 +27,18 @@ function AmmCard({ amm, onChange }) {
         .then((data) => {
           console.log(data);
           onChange();
+          setIsLoading(false)
         })
         .catch((err) => {
           console.error(err);
+          setIsLoading(false)
         });
     }
   };
   return (
     <div style={{ border: "red thin solid", padding: "5px", margin: "5px" }}>
       {/* <div>{JSON.stringify(amm)}</div> */}
+      <div>{isLoading && <Spinner theme="bullseye"/>}</div>
       <div>Code: {amm.account.code}</div>
       <div>
         Odds:

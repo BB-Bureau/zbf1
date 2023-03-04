@@ -7,13 +7,15 @@ import { ammSell } from "./program/ammSell";
 import { getBetAccounts } from "./program/getBetAccounts";
 import { getEvents } from "./program/getEvents";
 import { getHmbBalance } from "./program/getHmbBalance";
+import Spinner from "react-text-spinners";
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 function UserBetDetails({ allEvents, betAccount, refreshAll }) {
-  console.log({ allEvents, betAccount,})
+  console.log({ allEvents, betAccount });
   const [eventDetails, setEventDetails] = useState({});
   const [betStatus, setBetStatus] = useState(1);
+  const [isLoading, setIsLoading] = useState(false)
   const wallet = useAnchorWallet();
 
   useEffect(() => {
@@ -37,7 +39,7 @@ function UserBetDetails({ allEvents, betAccount, refreshAll }) {
       }
     }
     setEventDetails(eventAndBet);
-    const status = eventAndBet?.amm?.account?.status 
+    const status = eventAndBet?.amm?.account?.status;
     if (status === 1) {
       setBetStatus("open");
     }
@@ -55,23 +57,30 @@ function UserBetDetails({ allEvents, betAccount, refreshAll }) {
     }
   }, [allEvents, betAccount.account.amm]);
   const sell = async () => {
+    setIsLoading(true)
     await ammSell(
       wallet,
       betAccount.account.amm,
       Number(betAccount.account.amountOutcome)
     );
     refreshAll();
+    setIsLoading(false)
   };
   const claim = async () => {
+    setIsLoading(true)
     await ammClaim(wallet, betAccount.account.amm);
     refreshAll();
+    setIsLoading(false)
   };
   const lateClaim = async () => {
+    setIsLoading(true)
     await ammLateClaim(wallet, betAccount.account.amm);
     refreshAll();
+    setIsLoading(false)
   };
   return (
     <div style={{ margin: "10px" }}>
+      <div>{isLoading && <Spinner theme="bullseye"/>}</div>
       <div>
         event: {eventDetails?.e?.account?.description} (
         {eventDetails?.e?.publicKey.toString()})
@@ -91,7 +100,9 @@ function UserBetDetails({ allEvents, betAccount, refreshAll }) {
         {Number(betAccount.account.amountCollateral / 1e9).toFixed(2)}
       </div>
       {betStatus === "open" && <button onClick={sell}> sell </button>}
-      {["win","lose","rolled-back"].includes(betStatus) && <button onClick={claim}> claim </button>}
+      {["win", "lose", "rolled-back"].includes(betStatus) && (
+        <button onClick={claim}> claim </button>
+      )}
       {!eventDetails && <button onClick={lateClaim}> late claim </button>}
       <div>
         Actual Odds:{" "}
@@ -108,25 +119,32 @@ export default function Dashboard(props) {
   const [events, setEvents] = useState([]);
   const [hmbBalance, setHmbBalance] = useState();
   const [betAccounts, setBetAccounts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
   const refreshAll = useCallback(() => {
-    console.log("refresh on wallet change", {wallet})
-    getEvents(wallet).then((data) => {
-      setEvents(data);
-    }).then(() => {
-      if (wallet?.publicKey) {
-        console.log("extra requests")
-        getBetAccounts(wallet).then((data) => {
-          setBetAccounts(data);
-        });
-        getHmbBalance(wallet).then((data) => {
-          setHmbBalance(data.value.uiAmount);
-        });
-      }
-    });
+    setIsLoading(true)
+    console.log("refresh on wallet change", { wallet });
+    getEvents(wallet)
+      .then((data) => {
+        setEvents(data);
+      })
+      .then(() => {
+        if (wallet?.publicKey) {
+          console.log("extra requests");
+          getBetAccounts(wallet).then((data) => {
+            setBetAccounts(data);
+          });
+          getHmbBalance(wallet).then((data) => {
+            setHmbBalance(data.value.uiAmount);
+          });
+        }
+        setIsLoading(false)
+      });
   }, [wallet]);
 
   const onEventChange = () => {
+    setIsLoading(true)
     refreshAll(wallet);
+    setIsLoading(false)
   };
   useEffect(() => {
     refreshAll();
@@ -134,6 +152,8 @@ export default function Dashboard(props) {
 
   return (
     <div>
+      <div>{isLoading && <Spinner theme="bullseye"/>}</div>
+
       {!wallet?.publicKey && <div>Wallet Not Connected</div>}
       {wallet?.publicKey && (
         <>
