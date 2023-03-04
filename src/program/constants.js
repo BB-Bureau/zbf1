@@ -3,4 +3,4 @@
 // export const clusterUrl = "http://localhost:3333/solp"
 // export const clusterUrl = "http://35.240.202.129/solp"
 
-export const clusterUrl = "http://zeus.nohomoguys.xyz/solp"
+export const clusterUrl = "https://zeus.nohomoguys.xyz/solp"
